@@ -102,7 +102,7 @@ ${diffContent}`;
 
   const gemini = getGeminiClient();
   const model = gemini.getGenerativeModel({
-    model: "gemini-2.0-flash-lite",
+    model: "gemini-2.5-flash-lite",
     generationConfig: {
       temperature: 0.3,
       maxOutputTokens: 2000,
