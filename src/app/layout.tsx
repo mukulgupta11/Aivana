@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   },
   description:
     "AI-powered GitHub code reviews that catch bugs, security issues, and maintainability problems before production.",
+  verification: {
+    google: "_ynBJsZtnXA-_syZQ9lTXtY6fkGO1vl9kDMsXSmB-Rs",
+  },
 };
 
 export default function RootLayout({
