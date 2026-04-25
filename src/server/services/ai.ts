@@ -105,7 +105,7 @@ ${diffContent}`;
     model: "gemini-2.5-flash-lite",
     generationConfig: {
       temperature: 0.3,
-      maxOutputTokens: 2000,
+      maxOutputTokens: 8192,
       responseMimeType: "application/json",
     },
     systemInstruction: SYSTEM_PROMPT,
