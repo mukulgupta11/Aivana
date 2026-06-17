@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { FolderGit2, GitPullRequest } from "lucide-react";
+import { FolderGit2, GitPullRequest, Sparkles } from "lucide-react";
 import { UserMenu } from "./user-menu";
 import { ThemeToggle } from "./theme-toggle";
 
@@ -35,16 +35,19 @@ export function Header({ user }: HeaderProps) {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-xl supports-backdrop-filter:bg-background/60">
-      <div className="container mx-auto flex h-14 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full border-b border-border/70 bg-background/88 backdrop-blur-xl supports-backdrop-filter:bg-background/70">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-8">
           <Link
             href="/repos"
-            className="text-lg font-bold tracking-tight text-foreground"
+            className="flex items-center gap-3 text-lg font-bold text-foreground"
           >
-            Aivana
+            <span className="flex size-9 items-center justify-center rounded-[8px] bg-primary text-primary-foreground shadow-sm">
+              <Sparkles className="size-4" />
+            </span>
+            <span>Aivana</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden items-center gap-1 rounded-[8px] border border-border/70 bg-card p-1 shadow-sm md:flex">
             {navItems.map((item) => {
               const isActive =
                 pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -55,10 +58,10 @@ export function Header({ user }: HeaderProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                    "flex items-center gap-2 rounded-[8px] px-3 py-1.5 text-sm font-semibold transition-colors",
                     isActive
-                      ? "text-foreground bg-muted"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground",
                   )}
                 >
                   <Icon className="size-4" />
