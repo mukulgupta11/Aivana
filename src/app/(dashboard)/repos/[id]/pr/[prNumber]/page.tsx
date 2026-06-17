@@ -20,7 +20,6 @@ import {
   XCircle,
   CheckCircle,
   Loader2,
-  Sparkles,
   GitBranch,
   ArrowRight,
   Wand2,
@@ -121,9 +120,14 @@ export default function PullRequestDetailPage({ params }: PageProps) {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start gap-4">
+      <div className="rounded-[8px] bg-[#1b1938] p-6 text-white shadow-[0_24px_80px_rgba(27,25,56,0.16)]">
+        <div className="flex items-start gap-4">
         <Link href={`/repos/${id}`}>
-          <Button variant={"outline"} size={"icon"} className="shrink-0 mt-1">
+          <Button
+            variant={"outline"}
+            size={"icon"}
+            className="mt-1 shrink-0 border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+          >
             <ArrowLeft className="size-4" />
           </Button>
         </Link>
@@ -134,33 +138,36 @@ export default function PullRequestDetailPage({ params }: PageProps) {
               <div className="flex items-center gap-3 flex-wrap">
                 <div
                   className={cn(
-                    "p-2 rounded-lg shrink-0",
+                    "shrink-0 rounded-[8px] p-2",
                     isMerged
-                      ? "bg-purple-500/10"
+                      ? "bg-purple-300/15"
                       : pr.data.state === "closed"
-                        ? "bg-red-500/10"
-                        : "bg-emerald-500/10",
+                        ? "bg-red-300/15"
+                        : "bg-emerald-300/15",
                   )}
                 >
                   {isMerged ? (
-                    <GitMerge className="size-5 text-purple-500" />
+                    <GitMerge className="size-5 text-purple-200" />
                   ) : pr.data.state === "closed" ? (
-                    <XCircle className="size-5 text-red-500" />
+                    <XCircle className="size-5 text-red-200" />
                   ) : (
-                    <GitPullRequest className="size-5 text-emerald-500" />
+                    <GitPullRequest className="size-5 text-emerald-200" />
                   )}
                 </div>
                 <div className="min-w-0">
-                  <h1 className="text-xl font-semibold tracking-tight truncate">
+                  <p className="text-sm font-bold uppercase text-[#c9b4fa]">
+                    Pull request review
+                  </p>
+                  <h1 className="mt-2 truncate text-3xl font-[540] leading-tight">
                     {pr.data.title}
                   </h1>
-                  <div className="flex items-center gap-2 mt-1 flex-wrap">
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
                     <PRStatusBadge
                       state={pr.data.state}
                       isMerged={!!isMerged}
                       draft={pr.data.draft}
                     />
-                    <span className="text-sm text-muted-foreground font-mono">
+                    <span className="font-mono text-sm text-white/58">
                       #{pr.data.number}
                     </span>
                   </div>
@@ -174,30 +181,53 @@ export default function PullRequestDetailPage({ params }: PageProps) {
               rel="noopener noreferrer"
               className="shrink-0"
             >
-              <Button variant={"outline"} size={"sm"} className="gap-2">
+              <Button
+                variant={"outline"}
+                size={"sm"}
+                className="gap-2 border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+              >
                 <ExternalLink className="size-4" />
                 GitHub
               </Button>
             </a>
           </div>
 
-          <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground flex-wrap">
+          <div className="mt-5 flex flex-wrap items-center gap-4 text-sm text-white/62">
             <span className="flex items-center gap-2">
-              <Avatar className="h-5 w-5 ring-1 ring-border">
+              <Avatar className="size-5 ring-1 ring-white/20">
                 <AvatarImage src={pr.data.author.avatarUrl} />
                 <AvatarFallback className="text-[10px]">
                   {pr.data.author.login?.[0]?.toUpperCase() ?? "?"}
                 </AvatarFallback>
               </Avatar>
-              <span className="font-medium text-foreground">
+              <span className="font-medium text-white">
                 {pr.data.author.login}
               </span>
             </span>
-            <span className="text-muted-foreground/40">•</span>
             <span className="flex items-center gap-1.5">
               <Clock className="size-3.5" />
+              Review signal
             </span>
           </div>
+        </div>
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            ["Additions", pr.data.additions],
+            ["Deletions", pr.data.deletions],
+            ["Files", pr.data.changedFiles],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              className="rounded-[8px] border border-white/10 bg-white/[0.06] p-4"
+            >
+              <p className="text-2xl font-bold tabular-nums">{value}</p>
+              <p className="mt-1 text-xs font-semibold uppercase text-white/50">
+                {label}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
@@ -214,7 +244,7 @@ export default function PullRequestDetailPage({ params }: PageProps) {
                     Merged request
                   </p>
                   <div className="flex items-center gap-2 text-sm">
-                    <code className="px-2 py-0.5 rounded bg-secondary font-mono text-xs miw truncate">
+                    <code className="min-w-0 truncate rounded bg-secondary px-2 py-0.5 font-mono text-xs">
                       {pr.data.headRef}
                     </code>
                     <ArrowRight className="size-3 text-muted-foreground shrink-0" />
@@ -302,7 +332,7 @@ export default function PullRequestDetailPage({ params }: PageProps) {
       </Card>
 
       {/* Tabs */}
-      <div className="border-b border-border/60">
+      <div className="rounded-[8px] border border-border/70 bg-card p-1 shadow-sm">
         <div className="flex items-center gap-1">
           <TabButton
             active={activeTab === "review"}
@@ -407,10 +437,10 @@ function TabButton({
     <button
       onClick={onClick}
       className={cn(
-        "relative px-4 py-2.5 text-sm font-medium transition-colors flex items-center gap-2",
+        "relative flex items-center gap-2 rounded-[8px] px-4 py-2.5 text-sm font-semibold transition-colors",
         active
-          ? "text-foreground"
-          : "text-muted-foreground hover:text-foreground",
+          ? "bg-primary text-primary-foreground"
+          : "text-muted-foreground hover:bg-muted hover:text-foreground",
       )}
     >
       <Icon className="size-4" />
@@ -420,15 +450,12 @@ function TabButton({
           className={cn(
             "px-1.5 py-0.5 text-xs rounded-md tabular-nums",
             active
-              ? "bg-foreground/10 text-foreground"
+              ? "bg-white/18 text-white"
               : "bg-muted text-muted-foreground",
           )}
         >
           {count}
         </span>
-      )}
-      {active && (
-        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
       )}
     </button>
   );
@@ -475,7 +502,10 @@ function PRStatusBadge({
 }) {
   if (draft) {
     return (
-      <Badge variant={"secondary"} className="gap-1">
+      <Badge
+        variant={"secondary"}
+        className="gap-1 border-white/20 bg-white/10 text-white"
+      >
         Draft
       </Badge>
     );
@@ -485,7 +515,7 @@ function PRStatusBadge({
     return (
       <Badge
         variant={"secondary"}
-        className="bg-purple-600/10 dark:text-purple-400 border-purple-500/20 border"
+        className="border border-purple-200/20 bg-purple-300/15 text-purple-100"
       >
         <GitMerge className="size-3" />
         Merged
@@ -495,7 +525,10 @@ function PRStatusBadge({
 
   if (state === "closed") {
     return (
-      <Badge variant={"destructive"} className="gap-1">
+      <Badge
+        variant={"destructive"}
+        className="gap-1 border border-red-200/20 bg-red-300/15 text-red-100"
+      >
         <XCircle className="size-3" />
         Closed
       </Badge>
@@ -506,7 +539,7 @@ function PRStatusBadge({
     return (
       <Badge
         variant={"secondary"}
-        className="gap-1 bg-emerald-600/10 dark:text-emerald-400 border-emerald-500/20 border"
+        className="gap-1 border border-emerald-200/20 bg-emerald-300/15 text-emerald-100"
       >
         <GitMerge className="size-3" />
         Open

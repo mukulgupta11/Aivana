@@ -190,7 +190,7 @@ export function ReviewResult({ review }: ReviewResultProps) {
               >
                 <span
                   className={cn(
-                    "text-xl font-bold tabular-nums tracking-tight",
+                    "text-xl font-bold tabular-nums",
                     totalIssues === 0
                       ? "text-emerald-600 dark:text-emerald-400"
                       : "text-foreground",
@@ -334,7 +334,7 @@ function CommentCard({
               <Badge
                 variant={"outline"}
                 className={cn(
-                  "text-[10px] uppercase tracking-wider font-semibold",
+                  "text-[10px] uppercase font-semibold",
                   severityConfig.badge,
                 )}
               >
@@ -383,7 +383,7 @@ function CommentCard({
               {copied ? (
                 <Check className="size-3.5 text-emerald-500" />
               ) : (
-                <Copy className="size-3.5 opacity-0 group-hover/file:opacity-100 trantransition-opacity" />
+                <Copy className="size-3.5 opacity-0 transition-opacity group-hover/file:opacity-100" />
               )}
             </button>
           </div>
@@ -397,7 +397,7 @@ function CommentCard({
               <div className="p-1 rounded-md bg-emerald-500/20">
                 <Lightbulb className="size-3.5 text-emerald-500" />
               </div>
-              <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+              <span className="text-xs font-semibold uppercase text-emerald-600 dark:text-emerald-400">
                 Suggested Fix
               </span>
             </div>
@@ -491,7 +491,7 @@ function RiskScoreSection({ score }: { score: number }) {
         >
           <span
             className={cn(
-              "text-xl font-bold tabular-nums tracking-tight",
+              "text-xl font-bold tabular-nums",
               config.color,
             )}
           >

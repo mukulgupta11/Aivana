@@ -259,7 +259,7 @@ function DiffContent({ patch }: { patch: string }) {
       <table className="w-full text-xs font-mono">
         <tbody>
           {lines.map((line, index) => {
-            const lineInfo = parseLine(line, oldLineNum, newLineNum);
+            const lineInfo = parseLine(line);
 
             if (lineInfo.isHunk) {
               const match = line.match(/@@ -(\d+),?\d* \+(\d+),?\d* @@/);
@@ -344,7 +344,7 @@ interface LineInfo {
   isHunk: boolean;
 }
 
-function parseLine(line: string, _oldNum: number, _newNum: number): LineInfo {
+function parseLine(line: string): LineInfo {
   if (line.startsWith("@@")) {
     return { type: "hunk", isHunk: true };
   }

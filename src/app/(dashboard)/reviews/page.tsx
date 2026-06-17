@@ -59,33 +59,60 @@ export default function ReviewsPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Reviews</h1>
-          <p className="text-muted-foreground mt-1">
-            {statusCounts.all} total reviews
-          </p>
+      <div className="overflow-hidden rounded-[8px] bg-[#1b1938] p-6 text-white shadow-[0_24px_80px_rgba(27,25,56,0.16)]">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-bold uppercase text-[#c9b4fa]">
+              Review intelligence
+            </p>
+            <h1 className="mt-3 text-3xl font-[540] leading-tight">
+              Every review, risk, and resolution in one place.
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/66">
+              Track the AI review trail that proves your product is cared for
+              before it reaches production.
+            </p>
+          </div>
+          <Button
+            variant={"outline"}
+            size={"icon-sm"}
+            onClick={() => reviews.refetch()}
+            disabled={reviews.isFetching}
+            className="border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+          >
+            <RefreshCw
+              className={cn("size-4", reviews.isFetching && "animate-spin")}
+            />
+          </Button>
         </div>
-        <Button
-          variant={"ghost"}
-          size={"icon-sm"}
-          onClick={() => reviews.refetch()}
-          disabled={reviews.isFetching}
-        >
-          <RefreshCw
-            className={cn("size-4", reviews.isFetching && "animate-spin")}
-          />
-        </Button>
+        <div className="mt-6 grid gap-3 sm:grid-cols-4">
+          {[
+            ["Total", statusCounts.all],
+            ["Completed", statusCounts.COMPLETED],
+            ["Processing", statusCounts.PROCESSING],
+            ["Failed", statusCounts.FAILED],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              className="rounded-[8px] border border-white/10 bg-white/[0.06] p-4"
+            >
+              <p className="text-2xl font-bold tabular-nums">{value}</p>
+              <p className="mt-1 text-xs font-semibold uppercase text-white/50">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="flex items-center gap-2 flex-wrap p-1 bg-muted/50 rounded-lg w-fit">
+      <div className="flex w-fit flex-wrap items-center gap-2 rounded-[8px] border border-border/70 bg-card p-1 shadow-sm">
         {(["all", "COMPLETED", "PROCESSING", "PENDING", "FAILED"] as const).map(
           (status) => (
             <button
               key={status}
               onClick={() => setStatusFilter(status)}
               className={cn(
-                "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                    "flex items-center gap-2 rounded-[8px] px-3 py-1.5 text-sm font-semibold transition-all",
                 statusFilter === status
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground",
@@ -111,7 +138,7 @@ export default function ReviewsPage() {
       </div>
 
       {reviews.isLoading ? (
-        <div>
+        <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
             <Skeleton key={i} className="h-28 w-full rounded-xl" />
           ))}
