@@ -79,7 +79,7 @@ export default function RepositoryDetailPage({ params }: PageProps) {
     return (
       <Card>
         <CardContent className="py-16 text-center">
-          <div className="mx-auto w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+          <div className="mx-auto flex size-12 items-center justify-center rounded-full bg-muted">
             <GitBranch className="h-6 w-6 text-muted-foreground" />
           </div>
           <p className="mt-4 font-medium">Repository not found</p>
@@ -99,66 +99,97 @@ export default function RepositoryDetailPage({ params }: PageProps) {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-4">
-          <Link href={"/repos"}>
-            <Button variant={"outline"} size={"icon"} className="shrink-0">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-semibold tracking-tight">
+      <div className="rounded-[8px] bg-[#1b1938] p-6 text-white shadow-[0_24px_80px_rgba(27,25,56,0.16)]">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div className="flex items-start gap-4">
+            <Link href={"/repos"}>
+              <Button
+                variant={"outline"}
+                size={"icon"}
+                className="shrink-0 border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+              >
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            </Link>
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="text-sm font-bold uppercase text-[#c9b4fa]">
+                  Repository
+                </p>
+                <Badge className="gap-1 border-white/20 bg-white/10 text-white">
+                  {repository.data.private ? (
+                    <>
+                      <Lock className="size-3" />
+                      Private
+                    </>
+                  ) : (
+                    <>
+                      <Globe className="size-3" />
+                      Public
+                    </>
+                  )}
+                </Badge>
+              </div>
+              <h1 className="mt-3 text-3xl font-[540] leading-tight">
                 {repository.data.fullName}
               </h1>
-              <Badge variant={"outline"} className="gap-1">
-                {repository.data.private ? (
-                  <>
-                    <Lock className="size-3" />
-                    Private
-                  </>
-                ) : (
-                  <>
-                    <Globe className="size-3" />
-                    Public
-                  </>
-                )}
-              </Badge>
+              <a
+                href={repository.data.htmlUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1.5 text-sm text-white/66 transition-colors hover:text-white"
+              >
+                View on GitHub
+                <ExternalLink className="size-3" />
+              </a>
             </div>
-            <a
-              href={repository.data.htmlUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5 mt-1"
-            >
-              View on GitHub
-              <ExternalLink className="size-3" />
-            </a>
           </div>
+          <Button
+            variant={"outline"}
+            size={"icon-sm"}
+            onClick={() => pullRequests.refetch()}
+            disabled={pullRequests.isFetching}
+            className="border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+          >
+            <RefreshCw
+              className={cn(
+                "size-4",
+                pullRequests.isFetching && "animate-spin",
+              )}
+            />
+          </Button>
         </div>
-        <Button
-          variant={"ghost"}
-          size={"icon-sm"}
-          onClick={() => pullRequests.refetch()}
-          disabled={pullRequests.isFetching}
-        >
-          <RefreshCw
-            className={cn("size-4", pullRequests.isFetching && "animate-spin")}
-          />
-        </Button>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            ["Open", prCounts.open],
+            ["Closed", prCounts.closed],
+            ["Total", prCounts.all],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              className="rounded-[8px] border border-white/10 bg-white/[0.06] p-4"
+            >
+              <p className="text-2xl font-bold tabular-nums">{value}</p>
+              <p className="mt-1 text-xs font-semibold uppercase text-white/50">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="border-b border-border/60">
+      <div className="rounded-[8px] border border-border/70 bg-card p-1 shadow-sm">
         <div className="flex items-center gap-1">
           {(["open", "closed", "all"] as const).map((state) => (
             <button
               key={state}
               onClick={() => setPrState(state)}
               className={cn(
-                "relative px-4 py-2.5 text-sm font-medium transition-colors",
+                "relative rounded-[8px] px-4 py-2.5 text-sm font-semibold transition-colors",
                 prState === state
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
               )}
             >
               <span className="flex items-center gap-2">
@@ -176,16 +207,13 @@ export default function RepositoryDetailPage({ params }: PageProps) {
                   className={cn(
                     "px-1.5 py-0.5 text-xs rounded-md tabular-nums",
                     prState === state
-                      ? "bg-foreground/10 text-foreground"
+                      ? "bg-white/18 text-white"
                       : "bg-muted text-muted-foreground",
                   )}
                 >
                   {prCounts[state]}
                 </span>
               </span>
-              {prState === state && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
-              )}
             </button>
           ))}
         </div>
