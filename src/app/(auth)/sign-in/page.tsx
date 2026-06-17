@@ -8,14 +8,8 @@ import { signIn } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { AuthShell } from "@/components/auth/auth-shell";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -53,18 +47,14 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Sign In</CardTitle>
-          <CardDescription>
-            Sign in with your email or GitHub account.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <AuthShell
+      title="Welcome back"
+      description="Sign in to review pull requests, inspect risk signals, and keep release quality visible."
+    >
+      <div className="space-y-4">
           <Button
             variant="outline"
-            className="w-full"
+            className="h-11 w-full"
             onClick={handleGithubSignIn}
             disabled={loading}
           >
@@ -77,7 +67,7 @@ export default function SignInPage() {
               <Separator className="w-full" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
+              <span className="bg-card px-3 text-muted-foreground">
                 Or continue with email
               </span>
             </div>
@@ -107,18 +97,24 @@ export default function SignInPage() {
               />
             </div>
 
-            {error && <p className="text-red-500">{error}</p>}
+            {error && (
+              <p className="rounded-[8px] border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
+            )}
 
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button type="submit" className="h-11 w-full" disabled={loading}>
               {loading ? "Loading..." : "Sign In"}
             </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don&apos;t have an account? <Link href="/sign-up">Sign Up</Link>
+            Don&apos;t have an account?{" "}
+            <Link href="/sign-up" className="font-semibold text-primary">
+              Sign Up
+            </Link>
           </p>
-        </CardContent>
-      </Card>
-    </div>
+      </div>
+    </AuthShell>
   );
 }
