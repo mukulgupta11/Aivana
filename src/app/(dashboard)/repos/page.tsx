@@ -20,7 +20,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
-  GitBranch,
   Lock,
   Globe,
   RefreshCw,
@@ -28,7 +27,6 @@ import {
   Trash2,
   ArrowRight,
   Star,
-  GitPullRequest,
   Search,
   X,
   CheckCircle,
@@ -139,35 +137,64 @@ export default function ReposPage() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Repositories
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Select repositories to connect to your account.
-          </p>
+      <div className="overflow-hidden rounded-[8px] bg-[#1b1938] p-6 text-white shadow-[0_24px_80px_rgba(27,25,56,0.16)]">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-sm font-bold uppercase text-[#c9b4fa]">
+              Repository command center
+            </p>
+            <h1 className="mt-3 text-3xl font-[540] leading-tight">
+              Connect repos. Review every pull request.
+            </h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/66">
+              Keep quality signals visible across your GitHub workspace so
+              customers, recruiters, and teammates can see the discipline behind
+              each release.
+            </p>
+          </div>
+          <Button
+            onClick={() => {
+              setShowGitHubRepos(!showGitHubRepos);
+              setSearchQuery("");
+              setSelectedRepos(new Set());
+            }}
+            variant={showGitHubRepos ? "outline" : "default"}
+            className={
+              showGitHubRepos
+                ? "border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white"
+                : "bg-[#c9b4fa] text-[#1b1938] hover:bg-white"
+            }
+          >
+            {showGitHubRepos ? (
+              <>
+                <X className="size-4" />
+                Cancel
+              </>
+            ) : (
+              <>
+                <Plus className="size-4" />
+                Add Repository
+              </>
+            )}
+          </Button>
         </div>
-        <Button
-          onClick={() => {
-            setShowGitHubRepos(!showGitHubRepos);
-            setSearchQuery("");
-            setSelectedRepos(new Set());
-          }}
-          variant={showGitHubRepos ? "outline" : "default"}
-        >
-          {showGitHubRepos ? (
-            <>
-              <X className="size-4" />
-              Cancel
-            </>
-          ) : (
-            <>
-              <Plus className="size-4" />
-              Add Repository
-            </>
-          )}
-        </Button>
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {[
+            ["Connected", connectedRepos.data?.length ?? 0],
+            ["Selected", selectedRepos.size],
+            ["GitHub sync", showGitHubRepos ? "open" : "ready"],
+          ].map(([label, value]) => (
+            <div
+              key={label}
+              className="rounded-[8px] border border-white/10 bg-white/[0.06] p-4"
+            >
+              <p className="text-2xl font-bold">{value}</p>
+              <p className="mt-1 text-xs font-semibold uppercase text-white/50">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {showGitHubRepos && (
@@ -325,7 +352,7 @@ export default function ReposPage() {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+          <h2 className="text-sm font-medium uppercase text-muted-foreground">
             Connected Repositories
           </h2>
           {connectedRepos.data && connectedRepos.data.length > 0 && (
@@ -344,7 +371,7 @@ export default function ReposPage() {
         ) : connectedRepos.data?.length === 0 ? (
           <Card>
             <CardContent className="py-16 text-center">
-              <div className="mx-auto h-14 rounded-full bg-muted flex items-center justify-center">
+              <div className="mx-auto flex size-14 items-center justify-center rounded-full bg-muted">
                 <FolderGit2 className="size-7 text-muted-foreground" />
               </div>
               <p className="mt-4 font-medium">
