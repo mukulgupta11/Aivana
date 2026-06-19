@@ -84,9 +84,9 @@ const featureCards: Array<{
   },
   {
     icon: ShieldCheck,
-    title: "Trust signals for buyers",
+    title: "Release confidence built in",
     description:
-      "Security, quality, and maintainability signals become visible before demos, customer audits, and production releases.",
+      "Security, quality, and maintainability checks stay visible before code reaches production.",
     accent: "bg-[#9ee6c6]",
   },
 ];
@@ -112,24 +112,24 @@ const flowSteps = [
 const audienceCards = [
   {
     icon: Users,
-    title: "Recruiter-ready engineering signal",
+    title: "Team-ready review memory",
     description:
-      "Turn code quality into a visible operating habit with consistent PR history, review notes, and risk reduction.",
-    metric: "faster talent confidence",
+      "Keep consistent PR history, review notes, and risk reduction visible for the people building the product.",
+    metric: "shared context",
   },
   {
     icon: Eye,
-    title: "Customer-facing confidence",
+    title: "Release-ready confidence",
     description:
-      "Show that every release is reviewed against security, reliability, and maintainability before it ships.",
-    metric: "cleaner audit stories",
+      "See whether each release has been reviewed against security, reliability, and maintainability before it ships.",
+    metric: "cleaner releases",
   },
   {
     icon: Gauge,
-    title: "Founder-grade velocity",
+    title: "Less review drag",
     description:
       "Keep review quality high while the team moves quickly, grows repos, and ships more surface area.",
-    metric: "less review drag",
+    metric: "faster triage",
   },
 ];
 
@@ -236,8 +236,8 @@ function Hero({ reduceMotion }: { reduceMotion: boolean }) {
             className="mt-6 max-w-2xl text-lg font-[460] leading-8 text-white/74 sm:text-xl"
           >
             Aivana reviews every pull request like a senior teammate: it finds
-            risk, explains the fix, and gives customers and recruiters a
-            sharper signal that your engineering team is built to last.
+            risk, explains the fix, and helps your team keep quality high while
+            the product keeps moving.
           </motion.p>
           <motion.div variants={fadeUp} className="mt-9 flex flex-wrap gap-3">
             <Link href="/sign-up" className={heroButton}>
@@ -562,8 +562,8 @@ function ReviewFlow() {
           </h2>
           <p className="mt-5 max-w-xl text-lg leading-8 text-[#73706d]">
             Aivana gives the page a visible narrative: connect GitHub, analyze
-            the diff, resolve the risk. The interface keeps the buyer story and
-            the engineering story in the same place.
+            the diff, resolve the risk. The interface keeps review work clear,
+            searchable, and easy to act on.
           </p>
           <Link href="/sign-up" className={`${primaryButton} mt-8`}>
             Connect GitHub
@@ -644,9 +644,9 @@ function AudienceSection() {
     <section className="bg-white px-5 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <SectionIntro
-          eyebrow="Made to impress"
-          title="Sharper signals for customers, candidates, and teams."
-          description="Aivana turns the hidden work of code review into a polished product surface: buyers see discipline, recruiters see craft, and engineers get useful feedback."
+          eyebrow="Built for review flow"
+          title="Sharper signals for engineering teams."
+          description="Aivana turns the hidden work of code review into a focused product surface: risk is visible, decisions are easier, and engineers get useful feedback."
         />
 
         <div className="mt-12 grid gap-5 lg:grid-cols-3">

@@ -147,9 +147,8 @@ export default function ReposPage() {
               Connect repos. Review every pull request.
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-white/66">
-              Keep quality signals visible across your GitHub workspace so
-              customers, recruiters, and teammates can see the discipline behind
-              each release.
+              Keep quality signals visible across your GitHub workspace so each
+              release has a clear review trail.
             </p>
           </div>
           <Button
